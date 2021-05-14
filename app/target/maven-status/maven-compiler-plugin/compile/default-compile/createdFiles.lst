@@ -1,0 +1,5 @@
+com/tw/kafkaDemo/config/WebConfig.class
+com/tw/kafkaDemo/LogQueue.class
+com/tw/kafkaDemo/controller/MessageProduceController.class
+com/tw/kafkaDemo/KafkaDemoApplication.class
+com/tw/kafkaDemo/po/LogInfo.class

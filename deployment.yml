@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-demo-deployment
+spec:
+  replicas: 1   # 指定了这个 deployment 要有 1 个 pod
+  selector:
+    matchLabels:
+      app: k8s-demo
+  template:
+    metadata:
+      labels:
+        app: k8s-demo
+    spec:
+      containers:
+        - name: k8s-demo-pod
+          image: k8s-backend
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
