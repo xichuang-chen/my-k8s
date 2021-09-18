@@ -13,11 +13,11 @@
       Kubernetes 就会在你指定的 Pod（比如，Web 应用的 Pod）启动时，
       自动把 Secret 里的数据以 Volume 的方式挂载到容器里。
       
-        ![img.png](img.png)
+        ![img.png](assets/img.png)
 - [参考链接](https://hardocs.com/d/kubernetes/035-Pods.html)      
 
 ## Deployment
-![img_1.png](img_1.png)  
+![img_1.png](assets/img_1.png)  
 
 Deployment用于管理Pod、ReplicaSet，可实现滚动升级和回滚应用、扩容和缩容。  
 
@@ -27,7 +27,7 @@ Deployment用于管理Pod、ReplicaSet，可实现滚动升级和回滚应用、
 响应能力的时候，通过Deployment可以快速地进行扩展
 
 ## service
-![img_2.png](img_2.png)  
+![img_2.png](assets/img_2.png)  
 
 试想一个问题，ReplicaSet定义了pod的数量是2，当一个pod由于某种原因停止了，ReplicaSet会新建一个pod，以确保运行中的pod数量始终是2。但每个pod都有自己的ip，前端请求不知道这个新pod的ip是什么，那前端的请求如何发送到新pod中呢？
 答案是使用Service  
