@@ -23,8 +23,9 @@ kubelet 通过各种机制（主要通过 apiserver ）获取一组 PodSpec 并�
 
 ## pod
 在Kubernetes中，与用采用单独的应用容器方式不同，pod是最小的部署单元，可以对其进行创建，调度和管理操作。
-![img.png](assets/pod.png)
-- 资源共享与通讯  
+![img.png](assets/pod.png)  
+
+- 资源共享与通讯
     - 一个pod中应用使用相同的网络命名空间/IP和端口空间，可以使用localhost找到彼此并进行通信
     - 处在同一个pod中的应用也能访问一样的的共享volume  
       有了Pod之后，同一个Pod内的容器可以共享很多信息，也可能需要读取同一份配置。
@@ -34,13 +35,17 @@ kubelet 通过各种机制（主要通过 apiserver ）获取一组 PodSpec 并�
       这样，你把 Credential 信息以 Secret 的方式存在 Etcd 里，
       Kubernetes 就会在你指定的 Pod（比如，Web 应用的 Pod）启动时，
       自动把 Secret 里的数据以 Volume 的方式挂载到容器里。
-      
-        ![img.png](assets/img.png)
-- [参考链接](https://hardocs.com/d/kubernetes/035-Pods.html)      
 
+      ![img.png](assets/img.png)  
+
+- [参考链接](https://hardocs.com/d/kubernetes/035-Pods.html)
+
+### pod 通讯
+[pod 通讯](./pod/pod-communication.md)
 ## Deployment
 ![img_1.png](assets/img_1.png)  
 
+创建service 以及 pod  
 Deployment用于管理Pod、ReplicaSet，可实现滚动升级和回滚应用、扩容和缩容。  
 
 将Pod调度到目标机器上，调度完成之后，它还会继续帮我们继续监控容器是否在正确运行，
