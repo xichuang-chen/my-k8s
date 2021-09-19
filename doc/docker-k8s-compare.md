@@ -7,7 +7,7 @@
    docker run [baseImage]
    ```
 2. 将所要搞的服务放入容器  
-3. 将该容器到处为image, 该image包含有你的服务
+3. 将该容器导出为image, 该image包含有你的服务
 ```shell
   docker save -o targetImage.tar
 ```
