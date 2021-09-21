@@ -1,7 +1,8 @@
 # my-k8s
 
 ## Doc
-- [concept](./doc/architecture.md)  
+- [k8s 基本架构](./doc/architecture.md)  
+- [k8s 基本概念](./doc/concept.md)
 - [developer guide](./doc/developmernt.md)
 
 

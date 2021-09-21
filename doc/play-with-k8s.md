@@ -17,4 +17,8 @@ minikube start
 ```
 ## kubectl
 [kubectl](./kubectl.md) 是一个用于操作kubernetes集群的命令行接口，
-通过利用kubectl的各种命令可以实现各种功能。
+通过利用kubectl的各种命令可以实现各种功能。  
+*操作kubernetes对象（增删改查）需要通过kubernetes API，一般有以下几种方式*
+
+- kubectl命令工具
+- Client library的方式，例如 client-go
