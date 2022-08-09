@@ -1,4 +1,7 @@
 # kubectl
+Kubernetes 提供 kubectl 是使用 Kubernetes API 与 Kubernetes 集群的控制面进行通信的命令行工具。
+这个工具叫做 kubectl。
+
 ## kubectl logs 
   - 查看指定pod的日志
   - kubectl logs [-f] [-p] POD [-c CONTAINER]
