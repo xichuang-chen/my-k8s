@@ -8,3 +8,18 @@
     ```shell
     minikube dashboard 
     ```
+  
+- 停止 cluster
+  ```shell
+  minikube stop
+  ```
+  
+- 删除 cluster
+  ```shell
+  minikube delete
+  ```
+  
+- 查看所有 profile  
+  ```shell
+  minikube porfile list
+  ```
