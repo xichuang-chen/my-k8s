@@ -23,12 +23,37 @@ kubelet 通过各种机制（主要通过 apiserver ）获取一组 PodSpec 并�
 
 
 ## Node
-Node是集群的工作负载节点，默认情况kubelet会向Master注册自己，一旦Node被纳入集群管理范围，kubelet会定时向Master汇报自身的情报，包括操作系统，Docker版本，机器资源情况等。
+节点可以是一个虚拟机或者物理机器，取决于所在的集群配置。  
+[Node](https://kubernetes.io/zh-cn/docs/concepts/architecture/nodes/) 是集群的工作负载节点，默认情况kubelet会向Master注册自己，一旦Node被纳入集群管理范围，
+kubelet会定时向Master汇报自身的情报，包括操作系统，Docker版本，机器资源情况等。
 如果Node超过指定时间不上报信息，会被Master判断为“失联”，标记为Not Ready，随后Master会触发Pod转移。
 ### Node 的组件
 - kubelet: Pod的管家，与Master通信
 - kube-proxy：实现kubernetes Service的通信与负载均衡机制的重要组件
 - Docker：容器的创建和管理
+
+### 管理
+***如何添加节点？***  
+向 API 服务器添加节点的方式主要有两种：  
+- 节点上的 kubelet 向控制面执行自注册；
+- 你（或者别的什么人）手动添加一个 Node 对象。
+
+使用如下json创建node
+```json
+{
+  "kind": "Node",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "10.240.79.157",
+    "labels": {
+      "name": "my-first-k8s-node"
+    }
+  }
+}
+
+```
+
+
 
 
 ## pod
