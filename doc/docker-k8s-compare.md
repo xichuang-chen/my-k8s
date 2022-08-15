@@ -31,4 +31,5 @@
   docker-compose up
 ```
 
+[docker-compose 实战](https://blog.csdn.net/HHXX360TTXS361/article/details/115787355?spm=1001.2014.3001.5502)
 ### 通过k8s部署服务
