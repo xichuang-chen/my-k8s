@@ -13,5 +13,9 @@
 - [使用 minikube 搭建本地 cluster 集群](./doc/play-with-k8s.md)
 - [使用 kubectl 命令行工具](./doc/kubectl.md)
 
+### Other
+- [docker-compose](https://blog.csdn.net/HHXX360TTXS361/article/details/115787355?spm=1001.2014.3001.5502) 以及 [实战](https://github.com/xichuang-chen/starter-aws/tree/main/my-docker)
+
+
 ## Q&A
 - [问题记录](./doc/问题总结.md)
