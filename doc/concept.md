@@ -3,6 +3,7 @@
 [k8s 常用对象说明](https://www.huweihuang.com/kubernetes-notes/concepts/object/kubernetes-basic-concepts.html)
 ## kubelet
 [参考链接](https://www.jianshu.com/p/f888020d7dcc)  
+一句话: 与 master 通信并报告node pod等状态， 监控pod，容器的起停等等，啥它都管，node放不下了，报告，然后将pod弄走等  
 kubelet 是运行在每个 **node** 上的主要的“节点代理”，每个节点都会启动 kubelet进程，用来处理 Master 节点下发到本节点的任务, 
 按照 PodSpec 描述来管理Pod 和其中的容器（PodSpec 是用来描述一个 pod 的 YAML 或者 JSON 对象）。
 
@@ -16,10 +17,10 @@ kubelet 通过各种机制（主要通过 apiserver ）获取一组 PodSpec 并�
 ## Master
 集群的控制节点，负责整个集群的管理和控制，kubernetes的所有的命令基本都是发给Master，由它来负责具体的执行过程。  
 ### Master 的组件
-- kube-apiserver：资源增删改查的入口
-- kube-controller-manager：资源对象的大总管
-- kube-scheduler：负责资源调度（Pod调度）
-- etcd Server:kubernetes的所有的资源对象的数据保存在etcd中。
+- API Server：提供了资源操作的唯一入口，并提供认证、授权、访问控制、API注册和发现等机制
+- Scheduler：负责根据 Pod 的调度要求，将 Pod 调度到合适的节点上运行。
+- Controller Manager：包含多个控制器，用于监控集群的状态并对其进行调整，例如 ReplicaSet 控制器、Deployment 控制器等。
+- etcd：分布式键值存储系统，用于保存集群的配置信息、状态信息和元数据。
 
 
 ## Node
@@ -57,7 +58,8 @@ kubelet会定时向Master汇报自身的情报，包括操作系统，Docker版�
 
 
 ## pod
-在Kubernetes中，与用采用单独的应用容器方式不同，pod是最小的部署单元，可以对其进行创建，调度和管理操作。
+在Kubernetes中，与用采用单独的应用容器方式不同，pod是最小的部署单元，可以对其进行创建，调度和管理操作。  
+pod中天然有一个k8s自己的容器，pause  
 ![img.png](assets/pod.png)  
 
 - 资源共享与通讯
@@ -73,10 +75,23 @@ kubelet会定时向Master汇报自身的情报，包括操作系统，Docker版�
 
       ![img.png](assets/img.png)  
 
-- [参考链接](https://hardocs.com/d/kubernetes/035-Pods.html)
+- [参考链接](https://hardocs.com/d/kubernetes/035-Pods.html)  
 
+### pod 中 pause 容器有啥用
+- 网络命名空间（Network Namespace）共享：Pause 容器创建了一个独立的网络命名空间，并与其他容器共享该命名空间。这使得在同一个 Pod 中的所有容器可以使用相同的网络配置，它们可以通过 localhost 直接通信，而无需进行网络地址转换。
+- 存储卷共享：Pause 容器还负责挂载和管理 Pod 的共享存储卷。其他容器可以通过卷的挂载路径访问共享的数据。这样，所有在同一个 Pod 中的容器都可以共享同一个存储卷，实现数据的共享和交互。
+- Pod 生命周期管理：Pause 容器在 Pod 创建时启动，并在 Pod 销毁时终止。它的存在确保了 Pod 的生命周期，即使 Pod 中的其他容器在某些时候没有运行，Pause 容器也会一直存在。
+
+### 静态 pod 和 普通 pod 有啥区别
+- 静态 Pod 是由节点上的 kubelet 直接创建和管理的 Pod，不受控制平面的管理；
+- 而动态 Pod 是通过 Kubernetes API Server 创建和管理的 Pod，受控制平面的调度和监控。
+
+静态 Pod 适用于一些特殊的需求场景，而动态 Pod 则是 Kubernetes 中常用的创建和管理方式，通过定义资源对象来控制 Pod 的副本数、更新策略等属性。
 ### pod 通讯
 [pod 通讯](./pod/pod-communication.md)
+
+### pod 内一般部署什么
+pod 可以共享volume等，所以pod内一般部署相互交互或者有共同文件的系统  
 
 ### pod 模版
 [Pod模板](https://kubernetes.io/docs/concepts/workloads/pods/#pod-templates)用来定义Pod的各种属性，Controller(一般来说是Deployment)通过Pod模板来生成对应的Pod。  
@@ -102,10 +117,7 @@ Replication Controller是用来控制管理Pod副本(Replica，或者称实例)�
 ## service
 ![img_2.png](assets/service2.png)  
 
-试想一个问题，ReplicaSet定义了pod的数量是2，当一个pod由于某种原因停止了，ReplicaSet会新建一个pod，以确保运行中的pod数量始终是2。但每个pod都有自己的ip，前端请求不知道这个新pod的ip是什么，那前端的请求如何发送到新pod中呢？
-答案是使用Service  
-
-k8s的Service定义了一个服务的访问入口地址，前端的应用通过这个入口地址访问其背后的一组由Pod副本组成的集群实例，来自外部的访问请求被负载均衡到后端的各个容器应用上。Service与其后端Pod副本集群之间则是通过Label Selector实现关联。
+k8s的Service定义了一个服务的访问入口地址，前端的应用通过这个入口地址访问其背后的一组由Pod副本组成的集群实例，来自外部的访问请求被负载均衡到后端的各个容器应用上。Service与其后端Pod副本集群之间则是通过Label Selector实现关联。  
 请说人话：前端请求不是直接发送给Pod，而是发送到Service，Service再将请求转发给pod。
 
 
