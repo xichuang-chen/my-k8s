@@ -1,9 +1,10 @@
 # my-k8s
 
 ## Doc
-- [K8s 概述](./doc/概述.md)  
+- [k8s 概述](./doc/概述.md)  
 - [k8s 基本架构](./doc/architecture.md)  
 - [k8s 基本概念](./doc/concept.md)
+- [k8s 服务通信](./doc/通信.md)
 - [developer guide](./doc/developmernt.md)
 - [K8s 组件](https://kubernetes.io/zh-cn/docs/concepts/overview/components/)
 - [K8s 词汇表](https://kubernetes.io/zh-cn/docs/reference/glossary/?all=true#term-control-plane)

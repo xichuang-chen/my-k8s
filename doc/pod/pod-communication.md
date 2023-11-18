@@ -1,6 +1,6 @@
 # kubernetes Pod 通讯
 ## pod 间通信
-### 通过 pod ip 访问
+### 通过 pod ip 访问     ❌
 同一node下的 pod 默认路由都是 `Docker0`， 由于关联在同一网桥 `Docker0` 上，所以地址网段相同，可以直接通过
 内网桥进行通信，方式就是通过 `pod ip` 可以直接访问  
 
@@ -19,12 +19,13 @@ replicas 多个 pod 是为了负载均衡， 直接写死 pod ip , 无法进行�
 但有个疑问, 如果有些内部服务，通过service暴露出去了，这不是我期望的。 是不是通过service暴露出去了也可以做到外界访问不了？ 
 > 那必须的, 可以在service中设置暴露端口类型为clusterIp, 这样就只有集群内部能用了，详看[service](../service/service-discovery.md)  
 
-### 通过域名
+### 通过Service
+#### 通过 service 的虚拟IP  ❌
+#### 通过域名
 Kubernetes 提供了内置的 DNS 服务，容器可以通过 DNS 域名解析来访问其他容器或服务。每个 Pod 都有一个默认的 DNS 域名，格式为 <pod-name>.<namespace>.svc.cluster.local，可以使用该域名来访问同一命名空间中的其他 Pod。
 
+#### 通过 Service 通信，具体的过程是怎样的
+
 ## pod 内部通信
-![img.png](assets/pod-internal.png)  
-什么都是共享的，直接 `localhost:端口号` 访问
-
-
-![img.png](img.png)
+什么都是共享的，直接 `localhost:端口号` 访问  
+一般很少有pod内部署多个服务，除非关系非常紧密，需要共享很多东西的时候才会这样部署

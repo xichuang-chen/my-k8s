@@ -25,13 +25,25 @@ kube-proxy 负责为 Service 实现了一种 VIP（虚拟 IP）的形式。
 **service 其实就是由kube-proxy和iptables来实现的**
 ![img.png](assets/service-discovery.png)  
 
-#### type: ClusterIP
+## Service 的 type 类型
+### type: ClusterIP(默认type)
 只能集群内部访问，并且ip固定，只要service不删除，他就在  
 会弄一个iptables，给相关pod弄虚拟ip，然后将虚拟ip流量重定向到后端服务
 
-#### type:  NodePort
-在每个node上都起监听端口，把服务暴露在节点上，这样可以让集群外部的服务，
-通过 NodeIp 和 NodePort 访问到集群内部的服务
+### type:  NodePort
+在**每个**node上都起监听端口，把服务暴露在节点上，这样可以让集群外部的服务，
+通过 NodeIp 和 NodePort 访问到集群内部的服务  
+如果定义了 NodePort 就监听配置的port，如果不配置则会随机监听一个(32000~ 之间)  
+一般不推荐
+
+### ExternalName
+这种类型是为k8s内部服务访问外部服务用的  
+如果没有这个，那么当 k8s 内部服务需要访问外部服务时，可能就是直接访问，这样是有很多问题的
+- 如果外部服务ip 地址或者域名发生改变，所以调用的地方都要该，很繁琐
+
+现在可以为外部服务定义一个service, type 类型为ExternalName， 然后内部服务直接访问ExternalName对应
+的Service就好了
+
 
 ### Kube-DNS
 是k8s的一个插件，负责集群内部的DNS解析, 可以在集群内部，通过访问pod的名字就可以进行通信
